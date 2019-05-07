@@ -1,10 +1,10 @@
 package com.gps.stockapi.repository
 
+import com.gps.stockapi.model.Company
 import org.springframework.data.repository.CrudRepository
-import com.gps.stockapi.model.Supplier
 import org.springframework.stereotype.Repository
 
 @Repository
-interface SupplierRepository : CrudRepository<Supplier,Int>{
+interface CompanyRepository : CrudRepository<Company, Int> {
 
 }
