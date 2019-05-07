@@ -1,0 +1,455 @@
+swagger: "2.0"
+info:
+  description: "This is the stockapi contract"
+  version: "1.0.0"
+  title: "Swagger StockAPI"
+basePath: "/"
+paths:
+  /product:
+    post:
+      tags:
+      - "product"
+      summary: "Add a new product to the store"
+      description: ""
+      operationId: "addProduct"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Product object that needs to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        405:
+          description: "Invalid input"
+    put:
+      tags:
+      - "product"
+      summary: "Update an existing product"
+      description: ""
+      operationId: "updateProduct"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Product object that needs to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Product not found"
+        405:
+          description: "Validation exception"
+  /product/{productId}:
+    get:
+      tags:
+      - "product"
+      summary: "Find product by ID"
+      description: "Returns a single product"
+      operationId: "getProductById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "productId"
+        in: "path"
+        description: "ID of product to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Product"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Product not found"
+    post:
+      tags:
+      - "product"
+      summary: "Updates a product in the store with form data"
+      description: ""
+      operationId: "updateProductWithForm"
+      consumes:
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "productId"
+        in: "path"
+        description: "ID of product that needs to be updated"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "name"
+        in: "formData"
+        description: "Updated name of the product"
+        required: false
+        type: "string"
+      - name: "status"
+        in: "formData"
+        description: "Updated status of the product"
+        required: false
+        type: "string"
+      responses:
+        405:
+          description: "Invalid input"
+    delete:
+      tags:
+      - "product"
+      summary: "Deletes a product"
+      description: ""
+      operationId: "deleteProduct"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: false
+        type: "string"
+      - name: "productId"
+        in: "path"
+        description: "Product id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Product not found"
+  /user:
+    post:
+      tags:
+      - "user"
+      summary: "Create user"
+      description: "This can only be done by the logged in user."
+      operationId: "createUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        default:
+          description: "successful operation"
+  /user/login:
+    get:
+      tags:
+      - "user"
+      summary: "Logs user into the system"
+      description: ""
+      operationId: "loginUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "query"
+        description: "The user name for login"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        description: "The password for login in clear text"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        400:
+          description: "Invalid username/password supplied"
+  /user/logout:
+    get:
+      tags:
+      - "user"
+      summary: "Logs out current logged in user session"
+      description: ""
+      operationId: "logoutUser"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        default:
+          description: "successful operation"
+  /user/{username}:
+    get:
+      tags:
+      - "user"
+      summary: "Get user by user name"
+      description: ""
+      operationId: "getUserByName"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "The name that needs to be fetched. Use user1 for testing. "
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Invalid username supplied"
+        404:
+          description: "User not found"
+    put:
+      tags:
+      - "user"
+      summary: "Updated user"
+      description: "This can only be done by the logged in user."
+      operationId: "updateUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "name that need to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        400:
+          description: "Invalid user supplied"
+        404:
+          description: "User not found"
+    delete:
+      tags:
+      - "user"
+      summary: "Delete user"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "The name that needs to be deleted"
+        required: true
+        type: "string"
+      responses:
+        400:
+          description: "Invalid username supplied"
+        404:
+          description: "User not found"
+definitions:
+  Category:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+    xml:
+      name: "Category"
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      internalId:
+        type: "string"
+      username:
+        type: "string"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      phone:
+        type: "string"
+      userStatus:
+        type: "integer"
+        format: "int32"
+        description: "User Status"
+    xml:
+      name: "User"
+  Product:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      externalId:
+        type: "string"
+      name:
+        type: "string"
+      brand:
+        type: "string"
+      model:
+        type: "string"
+      dimension:
+        type: "string"
+      category:
+        $ref: "#/definitions/Category"
+      photoUrls:
+        type: "array"
+        items:
+          type: "string"
+      productType:
+        type: "string"
+        description: "product type in the stock"
+        enum:
+        - "material"
+        - "individual"
+      status:
+        type: "string"
+        description: "product status in the store"
+        enum:
+        - "available"
+        - "pending"
+        - "sold"
+    xml:
+      name: "Product"
+  Company:
+    type: "object"
+    required:
+    - "cnpj"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      cnpj:
+        type: "string"
+      tradingName:
+        type: "string"
+      companyName:
+        type: "string"
+      companyType:
+        type: "string"
+        description: "company type"
+        enum:
+        - "suppiler"
+        - "transportation" 
+    xml:
+      name: "Company"      
+  Transaction:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      transactionType:
+        type: "string"
+        description: "transaction type"
+        enum:
+        - "transfer"
+        - "invoice"
+    xml:
+      name: "Transaction"
+  TransactionTransfer:
+    type: "object"
+    properties:
+      transactionTransferId:
+        type: "integer"
+        format: "int64"
+      transactionId:
+        type: "integer"
+        format: "int64"
+      stockId:
+        type: "integer"
+        format: "int64"
+      productId:
+        type: "integer"
+        format: "int64"
+      quantity:
+        type: number
+        format: double
+      transactionTransferType:
+        type: "string"
+        description: "Transaction Transfer type"
+        enum:
+        - "in"
+        - "out"
+    xml:
+      name: "TransactionTransfer"
+  TransactionUser:
+    type: "object"
+    properties:
+      transactionId:
+        type: "integer"
+        format: "int64"
+      stockId:
+        type: "integer"
+        format: "int64"
+      productId:
+        type: "integer"
+        format: "int64"
+      quantity:
+        type: number
+        format: double
+      transactionUserType:
+        type: "string"
+        description: "Transaction User Type"
+        enum:
+        - "in"
+        - "out"
+    xml:
+      name: "TransactionUser"
+  Location:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+    xml:
+      name: "Location"
+  Stock:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      locationId:
+        type: "integer"
+        format: "int64"
+      productId:
+        type: "integer"
+        format: "int64"
+      quantity:
+        type: number
+        format: double
+    xml:
+      name: "Stock"
