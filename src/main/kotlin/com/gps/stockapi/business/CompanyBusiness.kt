@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class CompanyBusiness {
-
-    @Autowired
-    private lateinit var companyRepository: CompanyRepository
+class CompanyBusiness(@Autowired private var companyRepository: CompanyRepository) {
 
     fun getCompanys() : List<Company> {
         return companyRepository.findAll().toList()

@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class LocationBusiness {
-
-    @Autowired
-    private lateinit var locationRepository: LocationRepository
+class LocationBusiness(@Autowired private var locationRepository: LocationRepository) {
 
     fun getLocations() : List<Location> {
         return locationRepository.findAll().toList()

@@ -7,10 +7,7 @@ import org.springframework.stereotype.Component
 
 
 @Component
-class CategoryBusiness {
-
-    @Autowired
-    private lateinit var categoryRepository: CategoryRepository
+class CategoryBusiness(@Autowired private var categoryRepository: CategoryRepository) {
 
     fun getCategories() : List<Category> {
         return categoryRepository.findAll().toList()

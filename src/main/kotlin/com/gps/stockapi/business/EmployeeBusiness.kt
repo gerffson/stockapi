@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class EmployeeBusiness {
-
-    @Autowired
-    private lateinit var employeeRepository: EmployeeRepository
+class EmployeeBusiness(@Autowired private var employeeRepository: EmployeeRepository) {
 
     fun getEmployees() : List<Employee> {
         return employeeRepository.findAll().toList()
