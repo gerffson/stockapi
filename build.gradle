@@ -26,6 +26,7 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compile 'io.github.microutils:kotlin-logging:1.5.9'
 }
 
 compileKotlin {
