@@ -11,12 +11,12 @@ private val logger = KotlinLogging.logger {}
 @Component
 class CategoryBusiness(@Autowired private var categoryRepository: CategoryRepository) {
 
-    fun getCategories() : List<Category> {
-        logger.info { "Buscando lista de categorias" }
+    fun getCategories(): List<Category> {
+        logger.info { "Buscando lista de categorias"}
         return categoryRepository.findAll().toList()
     }
 
-    fun saveCategory(category : Category): Category {
+    fun saveCategory(category: Category): Category {
         logger.info { "Salvando categoria" }
         return categoryRepository.save(category)
     }
