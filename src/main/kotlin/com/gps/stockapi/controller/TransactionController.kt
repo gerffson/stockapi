@@ -1,6 +1,9 @@
 package com.gps.stockapi.controller
 
-import com.gps.stockapi.business.TransactionBusiness
+import com.gps.stockapi.business.TransactionAquisitionBusiness
+import com.gps.stockapi.business.TransactionTransferBusiness
+import com.gps.stockapi.controller.Request.AquisitionVO
+import com.gps.stockapi.controller.Request.TransferVO
 import com.gps.stockapi.model.Transaction
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -8,26 +11,25 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@RequestMapping("/transaction")
 class TransactionController {
     
     @Autowired
-    private lateinit var transactionBusiness: TransactionBusiness
+    private lateinit var transactionAquisitionBusiness: TransactionAquisitionBusiness
+
+    @Autowired
+    private lateinit var transactionTransferBusiness: TransactionTransferBusiness
 
 
-    @GetMapping("/transactions")
-    fun getCategories() : ResponseEntity<List<Transaction>> {
-        return  ResponseEntity(transactionBusiness.getTransactions(), HttpStatus.OK)
-    }
-
-    @RequestMapping(value = ["/transaction"], method = [(RequestMethod.POST)])
-    fun createTransaction(@RequestBody transaction : Transaction): ResponseEntity<Transaction> {
-        val persistedTransaction =  transactionBusiness.saveTransaction(transaction)
+    @RequestMapping(value = ["/aquisition"], method = [(RequestMethod.POST)])
+    fun createTransferTransaction(@RequestBody aquisition : AquisitionVO): ResponseEntity<Transaction> {
+        val persistedTransaction =  transactionAquisitionBusiness.aquisitionProductToStock(aquisition)
         return ResponseEntity(persistedTransaction, HttpStatus.CREATED)
     }
 
-    @RequestMapping(value = ["/transaction"], method = [(RequestMethod.PUT)])
-    fun modifyTransaction(@RequestBody transaction : Transaction): ResponseEntity<Transaction> {
-        val persistedTransaction =  transactionBusiness.saveTransaction(transaction)
-        return ResponseEntity(persistedTransaction, HttpStatus.OK)
+    @RequestMapping(value = ["/transfer"], method = [(RequestMethod.POST)])
+    fun createTransferTransaction(@RequestBody transfer : TransferVO): ResponseEntity<Transaction> {
+        val persistedTransaction =  transactionTransferBusiness.transferBetweenStocks(transfer)
+        return ResponseEntity(persistedTransaction, HttpStatus.CREATED)
     }
 }

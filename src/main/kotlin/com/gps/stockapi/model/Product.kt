@@ -1,6 +1,5 @@
 package com.gps.stockapi.model
 
-import com.gps.stockapi.model.Category
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id

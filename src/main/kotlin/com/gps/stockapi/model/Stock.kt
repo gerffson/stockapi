@@ -9,10 +9,12 @@ data class Stock (
     @Id
     @GeneratedValue
     var id: Int? = null,
-    var locationId: Long? = null,
-    var productId: Long? = null,
-    var quantity: Double? = null
+    var locationId: Int? = null,
+    var productId: Int? = null,
+    var quantity: Double = 0.0
 ) {
+
+    constructor(locationId: Int?,productId: Int?,quantity: Double ): this(null, locationId, productId, quantity) {}
 
 }
 

@@ -10,7 +10,6 @@ data class Transaction (
     @Id
     @GeneratedValue
     var id: Int? = null,
-    /* transaction type */
     var transactionType: Transaction.TransactionType? = null
 ) {
 

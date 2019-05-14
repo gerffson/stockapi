@@ -6,7 +6,7 @@ import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-private val logger = KotlinLogging.logger {}
+private val logger  = KotlinLogging.logger{}
 
 @Component
 class CategoryBusiness(@Autowired private var categoryRepository: CategoryRepository) {
@@ -20,5 +20,4 @@ class CategoryBusiness(@Autowired private var categoryRepository: CategoryReposi
         logger.info { "Salvando categoria" }
         return categoryRepository.save(category)
     }
-
 }

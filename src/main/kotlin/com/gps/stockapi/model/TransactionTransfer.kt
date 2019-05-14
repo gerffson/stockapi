@@ -10,18 +10,16 @@ data class TransactionTransfer (
     @Id
     @GeneratedValue
     var transactionTransferId: Int? = null,
-    var transactionId: Long? = null,
-    var stockId: Long? = null,
-    var productId: Long? = null,
+    var transactionId: Int? = null,
+    var stockId: Int? = null,
     var quantity: Double? = null,
-    /* Transaction Transfer type */
-    var transactionTransferType: TransactionTransfer.TransactionTransferType? = null
+    var transactionTransferType: TransactionTransferType? = null
 ) {
 
 
-    enum class TransactionTransferType(var varue: Any){
-        `in`("in"),
-        `out`("out");
+    enum class TransactionTransferType(var value: String){
+        IN("in"),
+        OUT("out");
     }
 
 }
