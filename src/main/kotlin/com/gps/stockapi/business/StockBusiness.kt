@@ -29,27 +29,26 @@ class StockBusiness(@Autowired private var stockRepository: StockRepository) {
     }
 
 
-    fun addProductToStock(locationId : Int, productId : Int, quantity : Double ){
-
-        var stock = stockRepository
+    fun addProductToStock(locationId : Int, productId : Int, quantity : Double ) : Stock{
+        val stock = stockRepository
                 .findByLocationIdAndProductId(locationId,productId)
                 .orElse(Stock(locationId,productId, 0.0))
 
         stock.quantity += quantity
-        stockRepository.save(stock)
+        return stockRepository.save(stock)
     }
 
 
     fun transferBetweenStocks(locationIdOrigin : Int,locationIdDestiny : Int, productId : Int, quantity : Double ){
 
-        var stockOrigin  = stockRepository
+        val stockOrigin  = stockRepository
                 .findByLocationIdAndProductId(locationIdOrigin,productId)
                 .orElseThrow{ StockNotFoundException () }
 
 
-        if(stockOrigin.quantity > quantity){
+        if(stockOrigin.quantity >= quantity){
 
-            var stockDestiny = stockRepository
+            val stockDestiny = stockRepository
                     .findByLocationIdAndProductId(locationIdDestiny,productId)
                     .orElse(Stock(locationIdDestiny,productId, 0.0))
 
@@ -65,7 +64,7 @@ class StockBusiness(@Autowired private var stockRepository: StockRepository) {
 
     fun removeProductFromStock(locationId : Int, productId : Int, quantity : Double ){
 
-        var stock = stockRepository
+        val stock = stockRepository
                 .findByLocationIdAndProductId(locationId,productId)
                 .orElseThrow{ StockNotFoundException () }
 
